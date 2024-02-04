@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-nodeapi
+spec:
+  selector:
+    matchLabels:
+      app: nodeapi
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nodeapi
+    spec:
+      containers:
+      - name: nodeapi
+        image: parthlimbachia1985/emartapp:nodeapi
+        ports:
+        - containerPort: 5000
+      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-nodeapi
+spec:
+  selector:
+    app: nodeapi
+  ports:
+  - port: 5000
+    targetPort: 5000

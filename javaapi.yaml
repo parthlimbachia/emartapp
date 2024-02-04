@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-javaapi
+spec:
+  selector:
+    matchLabels:
+      app: javaapi
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: javaapi
+    spec:
+      containers:
+      - name: javaapi
+        image: parthlimbachia1985/emartapp:javaapi
+        ports:
+        - containerPort: 9000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-javaapi
+spec:
+  selector:
+    app: javaapi
+  ports:
+  - port: 9000
+    targetPort: 9000
