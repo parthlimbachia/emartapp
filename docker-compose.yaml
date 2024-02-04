@@ -2,8 +2,9 @@ version: "3.8"
 
 services:
   client:
-    build:
-      context: ./client
+    #build:
+    #  context: ./client
+    image: parthlimbachia1985/emartapp:frontend
     ports:
       - "4200:4200"
     container_name: client
@@ -12,8 +13,9 @@ services:
       - webapi
 
   api:
-    build:
-      context: ./nodeapi
+    #build:
+    #  context: ./nodeapi
+    image: parthlimbachia1985/emartapp:nodeapi
     ports:
       - "5000:5000"
     restart: always
@@ -23,8 +25,9 @@ services:
       - emongo
 
   webapi:
-    build:
-      context: ./javaapi
+    #build:
+    #  context: ./javaapi
+    image: parthlimbachia1985/emartapp:javaapi
     ports:
       - "9000:9000"
     restart: always
@@ -44,16 +47,15 @@ services:
   emongo:
     image: mongo:4
     container_name: emongo
-    environment:
-      - MONGO_INITDB_DATABASE=epoc
+    env_file:
+      - .env
     ports:
       - "27017:27017"
 
   emartdb:
     image: mysql:8.0.33
     container_name: emartdb
+    env_file:
+      - .env
     ports:
       - "3306:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=emartdbpass
-      - MYSQL_DATABASE=books
