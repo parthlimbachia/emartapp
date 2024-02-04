@@ -1,12 +1,14 @@
 FROM node:14 AS nodeapi-build
-WORKDIR /usr/src/app
-COPY ./ ./nodeapi/
-RUN cd nodeapi && npm install
+ENV NODEAPI_BUILD /nodeapi_build
+WORKDIR $NODEAPI_BUILD
+COPY ./ $NODEAPI_BUILD
+RUN cd $NODEAPI_BUILD && npm install
 
 FROM node:14
-WORKDIR /usr/src/app/
-COPY --from=nodeapi-build /usr/src/app/nodeapi/ ./
+ENV NODEAPI_RUN /nodeapi
+WORKDIR $NODEAPI_RUN
+COPY --from=nodeapi-build /nodeapi_build/ ./
 RUN ls
 EXPOSE 5000
-CMD ["/bin/sh", "-c", "cd /usr/src/app/ && npm start"]
+CMD ["npm", "run", "start"]
 # Test3
