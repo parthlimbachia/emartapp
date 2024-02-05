@@ -2,18 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: deployment-nodeapi
+  namespace: emartapp
 spec:
   selector:
     matchLabels:
-      app: nodeapi
+      app: api
   replicas: 1
   template:
     metadata:
       labels:
-        app: nodeapi
+        app: api
     spec:
       containers:
-      - name: nodeapi
+      - name: api
         image: parthlimbachia1985/emartapp:nodeapi
         ports:
         - containerPort: 5000
@@ -22,10 +23,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: svc-nodeapi
+  name: api
+  namespace: emartapp
 spec:
   selector:
-    app: nodeapi
+    app: api
   ports:
   - port: 5000
     targetPort: 5000

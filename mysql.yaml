@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-mysql
+  namespace: emartapp
+spec:
+  selector:
+    matchLabels:
+      app: emartdb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: emartdb
+    spec:
+      containers:
+      - name: emartdb
+        image: mysql:8.0.33
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: emartapp-secret
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: emartapp-secret
+              key: MYSQL_DATABASE
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: emartdb
+  namespace: emartapp
+spec:
+  selector:
+    app: emartdb
+  ports:
+  - port: 3306
+    targetPort: 3306

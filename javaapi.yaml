@@ -2,18 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: deployment-javaapi
+  namespace: emartapp
 spec:
   selector:
     matchLabels:
-      app: javaapi
+      app: webapi
   replicas: 1
   template:
     metadata:
       labels:
-        app: javaapi
+        app: webapi
     spec:
       containers:
-      - name: javaapi
+      - name: webapi
         image: parthlimbachia1985/emartapp:javaapi
         ports:
         - containerPort: 9000
@@ -22,10 +23,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: svc-javaapi
+  name: webapi
+  namespace: emartapp
 spec:
   selector:
-    app: javaapi
+    app: webapi
   ports:
   - port: 9000
     targetPort: 9000
